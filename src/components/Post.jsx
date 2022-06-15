@@ -1,36 +1,55 @@
+import { format, formatDistanceToNow } from 'date-fns';
+import ptBR from 'date-fns/locale/pt-BR';
+
 import { Avatar } from './Avatar';
 import { Comment } from './Comment';
 
 import styles from './Post.module.css';
 
-export function Post(props) {
+export function Post({author, content, publishedAt}) {
+    const publishedAtFormatted = format(publishedAt, 
+        "d 'de' LLLL 'às' HH:mm'h'", 
+        { 
+            locale: ptBR 
+        }
+        );
+
+    const publishedAtFormattedRelativeToNow = formatDistanceToNow(publishedAt, 
+        {
+            locale: ptBR,
+            addSuffix: true,
+        }
+    );
+
     return (
        <article className={styles.post}>
             <header>
                 <div className={styles.author}>
-                    <Avatar src="https://www.github.com/neanderdev.png"  />
+                    <Avatar src={author.avatarUrl} />
 
                     <div className={styles.authorInfo}>
-                        <strong>Neander de Souza</strong>
+                        <strong>{author.name}</strong>
 
-                        <span>Web Developer</span>
+                        <span>{author.role}</span>
                     </div>
                 </div>
 
                 <time 
-                    title='15 de junho às 08:30h' 
-                    dateTime='2022-06-15 08:30:15'
+                    title={publishedAtFormatted}
+                    dateTime={publishedAt.toISOString()}
                 >
-                    Publicado há 1h
+                    {publishedAtFormattedRelativeToNow}
                 </time>
             </header>
 
             <div className={styles.content}>
-                <p>Fala galeraa 👋</p>
-
-                <p>Acabei de subir mais um projeto no meu portifa. É um projeto que fiz no NLW Return, evento da Rocketseat. O nome do projeto é DoctorCare 🚀</p>            
-
-                <p>👉{" "}<a href="#">jane.design/doctorcare</a></p>
+                {content.map((line) => {
+                    if (line.type === 'paragraph') {
+                        return <p>{line.content}</p>
+                    } else if (line.type === 'link') {
+                        return <p>👉{" "}<a href="#">{line.content}</a></p>
+                    }
+                })}
 
                 <p>
                     <a href="#">#novoprojeto</a> {" "} 
