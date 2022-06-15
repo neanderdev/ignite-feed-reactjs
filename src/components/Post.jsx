@@ -1,8 +1,44 @@
-export function Post(props) {
+import styles from './Post.module.css';
+
+export function Post() {
     return (
-        <div>
-            <strong>{props.author}</strong>
-            <p>{props.content}</p>
-        </div>
+       <article className={styles.post}>
+            <header>
+                <div className={styles.author}>
+                    <img 
+                        className={styles.avatar}
+                        src="https://www.github.com/neanderdev.png" 
+                        alt="Avatar do Github" 
+                    />
+
+                    <div className={styles.authorInfo}>
+                        <strong>Neander de Souza</strong>
+
+                        <span>Web Developer</span>
+                    </div>
+                </div>
+
+                <time 
+                    title='15 de junho às 08:30h' 
+                    dateTime='2022-06-15 08:30:15'
+                >
+                    Publicado há 1h
+                </time>
+            </header>
+
+            <div className={styles.content}>
+                <p>Fala galeraa 👋</p>
+
+                <p>Acabei de subir mais um projeto no meu portifa. É um projeto que fiz no NLW Return, evento da Rocketseat. O nome do projeto é DoctorCare 🚀</p>            
+
+                <p>👉 jane.design/doctorcare</p>
+
+                <p>
+                    <a href="#">#novoprojeto</a>
+                    <a href="#">#nlw</a>
+                    <a href="#">#rocketseat</a>
+                </p>
+            </div>
+       </article>
     );
 }
