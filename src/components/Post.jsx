@@ -16,7 +16,7 @@ export function Post({author, content, publishedAt}) {
         { 
             locale: ptBR 
         }
-        );
+    );
 
     const publishedAtFormattedRelativeToNow = formatDistanceToNow(publishedAt, 
         {
@@ -30,6 +30,14 @@ export function Post({author, content, publishedAt}) {
 
         setComments([...comments, newCommentText]);
         setNewCommentText('')
+    }
+
+    function onDeleteComment(commentToDelete) {
+        const commentsWithoutDeletedOne = comments.filter((comment) => {
+            return comment !== commentToDelete;
+        });
+
+       setComments(commentsWithoutDeletedOne);
     }
 
     return (
@@ -86,7 +94,11 @@ export function Post({author, content, publishedAt}) {
 
             <div className={styles.commentList}>
                 {comments.map((comment, index) => (
-                    <Comment key={index} content={comment} />
+                    <Comment 
+                        key={index} 
+                        content={comment} 
+                        onDeleteComment={onDeleteComment}
+                    />
                 ))}
             </div>
        </article>
